@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
-require_relative 'utils_module'
+require_relative 'utils/prime_module'
 
 class Rsa
+  include Utils::Prime
   attr_reader :public_key, :private_key, :encrypt_data
 
   def initialize
@@ -19,7 +20,7 @@ class Rsa
   end
 
   class << self
-    include Utils
+    include Utils::Prime
 
     def gen_keys
       p  = random_prime
@@ -35,13 +36,13 @@ class Rsa
 
     def encrypt(data, (e, n))
       encrypt_bytes_array = data.bytes.map do |byte|
-        (byte**e % n).to_s(32)
+        (byte**e.to_i % n.to_i).to_s(32)
       end.join('/')
     end
 
     def decrypt(encrypted_data, (d, n))
       decrypt_bytes_array = encrypted_data.split('/').map do |byte|
-        byte.to_i(32)**d % n
+        byte.to_i(32)**d.to_i % n.to_i
       end.pack('c*')
     end
   end
