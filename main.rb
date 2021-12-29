@@ -69,10 +69,12 @@ end
 loop_screen_block do
   print "
 #{blue 'Select a menu item'}
+#{yellow '0.'} #{blue 'Priject in github'}
 #{map_info}
 #{yellow '9.'} #{red 'Exit'}
 >> "
-  case gets.chop.to_i
+  case get_char.to_i
+  when 0 then qr_print
   when 1 then test
   when 2 then encrypt
   when 3 then decrypt
